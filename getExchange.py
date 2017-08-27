@@ -20,26 +20,20 @@ def sendSms(*message):
     	urllib.request.urlopen(url+q)
     	msg=msg[139:]
     	print (msg)
-
-
-url='https://www.bitstamp.net/api/v2/ticker/'
+        
+# Pass exchange in arg
 arg=(sys.argv[1:])
-print(arg[0])
-
-
-#q=urllib.parse.urlencode({arg[0]})
-print ('%s'%url,'%s'%arg[0])
+url='https://www.bitstamp.net/api/v2/ticker/'
+## Debug
+#print ('%s'%url,'%s'%arg[0])
 request=urllib.request.urlopen(url+arg[0])
 str=request.read().decode('utf-8')
 jsonObj=json.loads(str)
-print ('Highest rate :'+jsonObj['high'])
-print ('Latest rate :'+jsonObj['last'])
 
 latestRate=float(jsonObj['last'])
 
 # Change rate to add you own alert
 rate2buy=float(50)
 if latestRate < rate2buy:
-#  print (latestRate)
   msg2send='This is the latest rate of LTC : %d, check if you want to buy it'%latestRate
   sendSms(msg2send.split())
